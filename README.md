@@ -1,6 +1,6 @@
 # 项目名称
 
-这是一个使用Node.js编写的项目，提供了[项目简要描述]功能。
+web-file存储
 
 ## 安装
 
@@ -14,3 +14,7 @@ node main.js
 
 - `main.js` - 项目主程序入口
   
+## 相关app
+
+
+如需从App端跳转至本服务，可使用以下URL格式：[scheme]://[host]:[port]/[path]?param1=value1&param2=value2
