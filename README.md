@@ -16,5 +16,4 @@ node main.js
   
 ## 相关app
 
-
-如需从App端跳转至本服务，可使用以下URL格式：[scheme]://[host]:[port]/[path]?param1=value1&param2=value2
+如需要是app,请移动到app项目，[web-file-app](https://github.com/true-dandelion/web-file-app)
