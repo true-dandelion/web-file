@@ -1,0 +1,16 @@
+[
+   {
+    "id": 111111111,
+    "username": "shaoxin",
+    "email": "shaoxin@shaoxin.top",
+    "password": "shaoxin",
+    "permissions":"1"    
+   }
+,
+   {
+    "id": 111111112,
+    "username": "1",
+    "password": "1",
+    "permissions":"2"    
+   }
+]
