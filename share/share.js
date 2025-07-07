@@ -652,7 +652,19 @@ function useDownloadToken(token) {
 // 获取下载链接API
 router.get('/download-link', (req, res) => {
   const fileId = req.query.fileId;
-  const downloadPath = req.query.path || ''; // 可选的文件路径，用于目录共享时下载特定文件
+  let downloadPath = '';
+  
+  // 安全解码路径
+  try {
+    downloadPath = req.query.path ? decodeURIComponent(req.query.path) : ''; 
+  } catch (error) {
+    return res.status(400).json({ 
+      success: false, 
+      error: '无效的文件路径',
+      details: error.message 
+    });
+  }
+  
   const extractCode = req.query.extract; // 提取码
   
   if (!fileId) {
@@ -677,17 +689,25 @@ router.get('/download-link', (req, res) => {
   
   // 确定完整的文件路径
   let fullFilePath;
-  if (downloadPath) {
-    // 如果是子文件或子文件夹
-    fullFilePath = path.join(shareInfo.filePath, downloadPath);
-    
-    // 安全检查：确保下载路径在分享的目录内部
-    if (!fullFilePath.startsWith(shareInfo.filePath)) {
-      return res.status(403).json({ success: false, error: '无权访问此路径' });
+  try {
+    if (downloadPath) {
+      // 如果是子文件或子文件夹
+      fullFilePath = path.join(shareInfo.filePath, downloadPath);
+      
+      // 安全检查：确保下载路径在分享的目录内部
+      if (!fullFilePath.startsWith(shareInfo.filePath)) {
+        return res.status(403).json({ success: false, error: '无权访问此路径' });
+      }
+    } else {
+      // 如果是直接下载共享的文件
+      fullFilePath = shareInfo.filePath;
     }
-  } else {
-    // 如果是直接下载共享的文件
-    fullFilePath = shareInfo.filePath;
+  } catch (error) {
+    return res.status(400).json({ 
+      success: false, 
+      error: '路径处理出错',
+      details: error.message 
+    });
   }
   
   // 检查文件是否存在
@@ -702,7 +722,6 @@ router.get('/download-link', (req, res) => {
   return res.json({
     success: true,
     downloadLink: `/share/share-Download?file=${downloadToken}`,
-    token: downloadToken,
     expiresAt: loadShareData().downloadTokens[downloadToken].expiresAt
   });
 });
@@ -737,10 +756,10 @@ router.get('/share-Download', (req, res) => {
     return res.status(400).json({ success: false, error: '不能直接下载文件夹' });
   }
   
-  // 设置文件名
+  // 设置文件名 - 使用 path.basename 确保安全
   const fileName = path.basename(filePath);
   
-  // 设置响应头
+  // 设置响应头 - 使用 encodeURIComponent 处理特殊字符
   res.setHeader('Content-Disposition', `attachment; filename="${encodeURIComponent(fileName)}"`);
   res.setHeader('Content-Type', getMimeType(fileName));
   res.setHeader('Content-Length', stats.size);
