@@ -39,4 +39,4 @@ node main.js
 
 ## 相关app
 
-如需要是app,请移动到app项目：[web-file-app](https://github.com/true-dandelion/web-file-app)
+如需要是app,请移步到app项目：[web-file-app](https://github.com/true-dandelion/web-file-app)
