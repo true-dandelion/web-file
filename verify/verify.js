@@ -192,7 +192,6 @@ function setupVerifyRoutes(router, wsService) {
       const usernameOrEmail = decryptData(y);
       const password = decryptData(k);
 
-      console.log(usernameOrEmail, password);
       
       if (!usernameOrEmail || !password) {
         return res.json({
