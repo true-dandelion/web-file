@@ -16,6 +16,10 @@ node main.js
 
 - `main.js` - 项目主程序入口
 
+## 初始登录账户密码
+-账户：admin
+-密码：admin
+
 ## 需要配置
 
 -config/process.json
