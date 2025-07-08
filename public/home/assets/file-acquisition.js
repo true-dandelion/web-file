@@ -6,6 +6,49 @@
     let fileListContainer;
     let currentPathElement;
 
+    // 获取上一级路径
+    function getParentPath(path) {
+        // 移除末尾的斜杠
+        path = path.replace(/\/$/, '');
+        
+        // 如果是根目录，保持不变
+        if (path === '') {
+            return '/';
+        }
+        
+        // 分割路径
+        const pathParts = path.split('/').filter(part => part !== '');
+        
+        // 如果只有一级路径，返回根目录
+        if (pathParts.length <= 1) {
+            return '/';
+        }
+        
+        // 移除最后一个路径部分，重新构建路径
+        pathParts.pop();
+        return '/' + pathParts.join('/') + '/';
+    }
+    
+    // 重建完整的路径历史
+    function rebuildPathHistory(currentPath) {
+        // 移除末尾的斜杠
+        currentPath = currentPath.replace(/\/$/, '');
+        
+        // 分割路径
+        const pathParts = currentPath.split('/').filter(part => part !== '');
+        
+        // 构建路径历史
+        const pathHistory = ['/'];
+        
+        // 逐步构建路径
+        for (let i = 0; i < pathParts.length - 1; i++) {
+            const partialPath = '/' + pathParts.slice(0, i + 1).join('/') + '/';
+            pathHistory.push(partialPath);
+        }
+        
+        return pathHistory;
+    }
+    
     // 初始化模块
     function initialize(container, pathElement) {
         fileListContainer = container;
@@ -14,10 +57,11 @@
         // 尝试从 pathHandler 获取初始路径
         const initialPath = window.pathHandler ? window.pathHandler.extractPathFromURL() : '/';
         
-        // 如果初始路径不是根目录，设置路径历史
+        // 如果初始路径不是根目录，重建路径历史
         if (initialPath !== '/') {
-            // 获取根目录作为上一级路径
-            currentPathHistory = ['/'];
+            currentPathHistory = rebuildPathHistory(initialPath);
+        } else {
+            currentPathHistory = [];
         }
         
         loadFilesFromServer(initialPath);
@@ -212,20 +256,6 @@
         }
     }
     
-    // 导航到文件夹
-    function navigateToFolder(path) {
-        // 在导航到新文件夹之前，将当前路径添加到历史记录
-        currentPathHistory.push(currentPath);
-        
-        loadFilesFromServer(path);
-        
-        // 触发路径变更事件
-        const event = new CustomEvent('filePathChanged', {
-            detail: { path: path }
-        });
-        document.dispatchEvent(event);
-    }
-    
     // 返回上一级
     function navigateBack() {
         if (currentPathHistory.length > 0) {
@@ -238,15 +268,31 @@
             });
             document.dispatchEvent(event);
         } else {
-            // 如果没有历史记录，返回根目录
-            loadFilesFromServer('/');
+            // 如果没有历史记录，计算当前路径的上一级
+            const parentPath = getParentPath(currentPath);
+            
+            loadFilesFromServer(parentPath);
             
             // 触发路径变更事件
             const event = new CustomEvent('filePathChanged', {
-                detail: { path: '/' }
+                detail: { path: parentPath }
             });
             document.dispatchEvent(event);
         }
+    }
+    
+    // 导航到文件夹
+    function navigateToFolder(path) {
+        // 在导航到新文件夹之前，将当前路径添加到历史记录
+        currentPathHistory.push(currentPath);
+        
+        loadFilesFromServer(path);
+        
+        // 触发路径变更事件
+        const event = new CustomEvent('filePathChanged', {
+            detail: { path: path }
+        });
+        document.dispatchEvent(event);
     }
 
     // 格式化文件大小
