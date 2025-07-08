@@ -1,7 +1,5 @@
-# 忽略证书、配置和文件文件夹
 certificate/
 config/
 file/
 
-# 忽略Node.js依赖
 node_modules/
