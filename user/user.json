@@ -1,18 +1,8 @@
 [
   {
-    "id": 111111111,
-    "username": "shaoxin",
-    "password": "shaoxin",
+    "id": 1,
+    "username": "admin",
+    "password": "admin",
     "permissions": "1",
-    "theme": "0",
-    "email": "shaoxin@shaoxin.top",
-    "preview-theme": "6"
-  },
-  {
-    "id": 111111112,
-    "username": "1",
-    "password": "1",
-    "permissions": "1",
-    "theme": "0"
   }
 ]
