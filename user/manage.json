@@ -1,0 +1,84 @@
+[
+  {
+    "id": 111111111,
+    "username": "shaoxin",
+    "Login-lists": [
+      {
+        "table": "14",
+        "manage": "::ffff:127.0.0.1",
+        "user": "normal",
+        "equipment": "Chrome / Windows NT 10.0",
+        "login-time": "1753101087464"
+      },
+      {
+        "table": "13",
+        "manage": "::ffff:127.0.0.1",
+        "user": "normal",
+        "equipment": "Chrome / Windows NT 10.0",
+        "login-time": "1753100357616"
+      },
+      {
+        "table": "12",
+        "manage": "::ffff:127.0.0.1",
+        "user": "normal",
+        "equipment": "Chrome / Windows NT 10.0",
+        "login-time": "1753073009581"
+      },
+      {
+        "table": "11",
+        "manage": "::ffff:127.0.0.1",
+        "user": "normal",
+        "equipment": "Chrome / Windows NT 10.0",
+        "login-time": "1753064453297"
+      },
+      {
+        "table": "10",
+        "manage": "::ffff:127.0.0.1",
+        "user": "normal",
+        "equipment": "Chrome / Windows NT 10.0",
+        "login-time": "1752999843325"
+      }
+    ]
+  },
+  {
+    "id": 111111112,
+    "username": "1",
+    "Login-lists": [
+      {
+        "table": "5",
+        "manage": "::ffff:127.0.0.1",
+        "user": "normal",
+        "equipment": "Chrome / Windows NT 10.0",
+        "login-time": "1753100345421"
+      },
+      {
+        "table": "4",
+        "manage": "::ffff:127.0.0.1",
+        "user": "normal",
+        "equipment": "Chrome / Windows NT 10.0",
+        "login-time": "1753100340423"
+      },
+      {
+        "table": "3",
+        "manage": "::ffff:127.0.0.1",
+        "user": "normal",
+        "equipment": "Chrome / Windows NT 10.0",
+        "login-time": "1753072165457"
+      },
+      {
+        "table": "2",
+        "manage": "::ffff:127.0.0.1",
+        "user": "normal",
+        "equipment": "Chrome / Windows NT 10.0",
+        "login-time": "1753068140683"
+      },
+      {
+        "table": "1",
+        "manage": "::ffff:127.0.0.1",
+        "user": "normal",
+        "equipment": "Chrome / Windows NT 10.0",
+        "login-time": "1752821401357"
+      }
+    ]
+  }
+]
