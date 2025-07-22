@@ -18,22 +18,24 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // 导入自定义中间件
-const { sessionMiddleware } = require('./middleware/middleware');
+const { sessionMiddleware } = require('./jk/middleware/middleware');
 app.use(sessionMiddleware);
 
 // 导入模块
-const frontModule = require('./front/front');
-const interfaceModule = require('./interface/interface');
-const websocketModule = require('./interface/interface-ws');
-const download = require('./interface/interface-download');
-const createDeleteModule = require('./interface/interface-create-delete');
-const setupVerifyRoutes = require('./verify/verify');
-const setupWebSocketVerify = require('./verify/verify-ws');
-const share = require('./share/share');
-const shareModule = require('./share/share-json');
-const setup = require('./set-up/ser-up');
-const account =require('./set-up/account-manage')
-const head = require('./set-up/head')
+const frontModule = require('./jk/front/front');
+const interfaceModule = require('./jk/interface/interface');
+const websocketModule = require('./jk/interface/interface-ws');
+const download = require('./jk/interface/interface-download');
+const createDeleteModule = require('./jk/interface/interface-create-delete');
+const setupVerifyRoutes = require('./jk/verify/verify');
+const setupWebSocketVerify = require('./jk/verify/verify-ws');
+const share = require('./jk/share/share');
+const shareModule = require('./jk/share/share-json');
+const setup = require('./jk/set-up/ser-up');
+const account =require('./jk/set-up/account-manage')
+const head = require('./jk/set-up/head')
+const view = require('./jk/view/view')
+const shareview = require('./jk/view/share-view')
 
 // 应用模块路由
 app.use('/', frontModule);
@@ -46,13 +48,15 @@ app.use('/share-json', shareModule);
 app.use('/set', setup);
 app.use('/account', account)
 app.use('/head', head)
+app.use('/view', view)
+app.use('/share-view', shareview)
 let server;
 
 // 设置HTTPS服务器
 if (HTTPS_ENABLED) {
   // 读取证书配置
-  const certFile = config.https.cert || 'mc.wmcbbs.com.pem';
-  const keyFile = config.https.key || 'mc.wmcbbs.com.key';
+  const certFile = config.https.cert || '';
+  const keyFile = config.https.key || '';
   
   // 创建证书选项
   try {
