@@ -1,8 +1,12 @@
 function encryptLoginData(z, m) {
     try {
-        const publicKey = getRSAPublicKey();
+        // 检查是否已获取到公钥
+        if (!globalPublicKey) {
+            console.error('公钥尚未获取，请稍后重试');
+            return null;
+        }
         
-        const publicKeyForge = forge.pki.publicKeyFromPem(publicKey);
+        const publicKeyForge = forge.pki.publicKeyFromPem(globalPublicKey);
         
         const encryptedUsername = forge.util.encode64(
             publicKeyForge.encrypt(z, 'RSA-OAEP', {

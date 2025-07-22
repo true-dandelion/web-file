@@ -85,6 +85,8 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // 预定义主题 - 二次元风格
         const themes = [
+            { name: '纯洁白色', primary: '#ffffff', secondary: '#f0f0f0', description: '极简清新的白色系' },
+            { name: '纯绝黑色', primary: '#121212', secondary: '#1e1e1e', description: '高端沉稳的黑色系' },
             { name: '粉色少女', primary: '#ff6b81', secondary: '#6c5ce7', description: '温柔可爱的粉色系' },
             { name: '蓝色海洋', primary: '#0984e3', secondary: '#00cec9', description: '清爽沁凉的蓝色系' },
             { name: '绿色森林', primary: '#00b894', secondary: '#6ab04c', description: '自然舒适的绿色系' },
@@ -107,9 +109,10 @@ document.addEventListener('DOMContentLoaded', function() {
         themeCards.className = 'theme-cards';
         
         // 添加主题卡片
-        themes.forEach(theme => {
+        themes.forEach((theme, index) => {
             const card = document.createElement('div');
             card.className = 'theme-card';
+            card.dataset.themeIndex = index;
             
             // 创建主题预览区域，使用SVG渐变背景
             const svgGradient = `
@@ -123,9 +126,19 @@ document.addEventListener('DOMContentLoaded', function() {
                     <rect width="100%" height="100%" fill="url(#${theme.name.replace(/\s+/g, '')})" />
                     
                     <!-- 添加二次元装饰元素 -->
+                    ${theme.name === '纯洁白色' ? `
+                        <circle cx="70%" cy="30%" r="10" fill="#000000" opacity="0.05" />
+                        <circle cx="80%" cy="20%" r="5" fill="#000000" opacity="0.03" />
+                        <circle cx="20%" cy="70%" r="8" fill="#000000" opacity="0.03" />
+                    ` : theme.name === '纯绝黑色' ? `
+                        <circle cx="70%" cy="30%" r="10" fill="#ffffff" opacity="0.1" />
+                        <circle cx="80%" cy="20%" r="5" fill="#ffffff" opacity="0.05" />
+                        <circle cx="20%" cy="70%" r="8" fill="#ffffff" opacity="0.05" />
+                    ` : `
                     <circle cx="70%" cy="30%" r="10" fill="#ffffff" opacity="0.3" />
                     <circle cx="80%" cy="20%" r="5" fill="#ffffff" opacity="0.2" />
                     <circle cx="20%" cy="70%" r="8" fill="#ffffff" opacity="0.2" />
+                    `}
                 </svg>
             `;
             
@@ -134,8 +147,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div class="theme-name">${theme.name}</div>
             `;
             
-            // 添加点击事件
-            card.addEventListener('click', function() {
+            // 为主题卡片添加点击事件
+            card.addEventListener('click', function(e) {
                 // 设置主题色
                 setTheme(theme);
                 
@@ -149,6 +162,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // 显示可爱的选择提示
                 showToast(`已选择 ${theme.name} 主题~`);
+                
+                // 保存主题选择到服务器
+                // 使用主题在数组中的索引
+                const themeIndex = themes.findIndex(t => t.name === theme.name);
+                if (themeIndex !== -1) {
+                    saveThemePreference(themeIndex);
+                }
             });
             
             themeCards.appendChild(card);
@@ -156,7 +176,96 @@ document.addEventListener('DOMContentLoaded', function() {
         
         themeSection.appendChild(themeCards);
         
-        // 恢复保存的主题
+        // 从服务器获取主题设置
+        fetchThemePreference();
+    }
+    
+    // 从服务器获取主题设置
+    function fetchThemePreference() {
+        fetch('/view/theme', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                action: 'getTheme'
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success && data.theme !== undefined) {
+                // 根据返回的主题索引设置主题
+                applyThemeByIndex(data.theme);
+            }
+        })
+        .catch(error => {
+            console.error('获取主题设置失败:', error);
+            // 如果获取失败，尝试从本地存储恢复
+            restoreThemeFromLocalStorage();
+        });
+    }
+    
+    // 保存主题选择到服务器
+    function saveThemePreference(themeIndex) {
+        fetch('/view/theme', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                action: 'setTheme',
+                theme: themeIndex
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (!data.success) {
+                console.error('保存主题设置失败');
+            }
+        })
+        .catch(error => {
+            console.error('保存主题设置失败:', error);
+        });
+    }
+    
+    // 根据主题索引应用主题
+    function applyThemeByIndex(index) {
+        // 预定义主题列表
+        const themes = [
+            { name: '纯洁白色', primary: '#ffffff', secondary: '#f0f0f0', description: '极简清新的白色系' },
+            { name: '纯绝黑色', primary: '#121212', secondary: '#1e1e1e', description: '高端沉稳的黑色系' },
+            { name: '粉色少女', primary: '#ff6b81', secondary: '#6c5ce7', description: '温柔可爱的粉色系' },
+            { name: '蓝色海洋', primary: '#0984e3', secondary: '#00cec9', description: '清爽沁凉的蓝色系' },
+            { name: '绿色森林', primary: '#00b894', secondary: '#6ab04c', description: '自然舒适的绿色系' },
+            { name: '紫色魔法', primary: '#a29bfe', secondary: '#fd79a8', description: '神秘梦幻的紫色系' },
+            { name: '橙色阳光', primary: '#fdcb6e', secondary: '#e17055', description: '活力四溢的橙色系' }
+        ];
+        
+        // 检查索引是否有效
+        if (index >= 0 && index < themes.length) {
+            // 应用主题
+            setTheme(themes[index]);
+            
+            // 如果在主题页面，标记对应的卡片为活动状态
+            const themeCards = document.querySelectorAll('.theme-card');
+            themeCards.forEach(card => {
+                // 对于白色和黑色主题（索引0和1），需要特殊处理
+                if (index === 0) {
+                    // 白色主题
+                    card.classList.toggle('active', card.querySelector('.theme-name').textContent === '纯洁白色');
+                } else if (index === 1) {
+                    // 黑色主题
+                    card.classList.toggle('active', card.querySelector('.theme-name').textContent === '纯绝黑色');
+                } else {
+                    // 其他主题
+                    card.classList.toggle('active', parseInt(card.dataset.themeIndex) === index);
+                }
+            });
+        }
+    }
+    
+    // 从本地存储恢复主题
+    function restoreThemeFromLocalStorage() {
         const savedTheme = localStorage.getItem('selectedTheme');
         if (savedTheme) {
             try {
@@ -165,8 +274,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // 标记当前主题卡片为活动状态
                 const themeCards = document.querySelectorAll('.theme-card');
-                themeCards.forEach((card, index) => {
-                    if (themes[index].name === theme.name) {
+                themeCards.forEach(card => {
+                    const cardThemeName = card.querySelector('.theme-name').textContent;
+                    if (cardThemeName === theme.name) {
                         card.classList.add('active');
                     }
                 });
@@ -178,6 +288,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 设置主题函数
     function setTheme(theme) {
+        // 设置颜色变量
         document.documentElement.style.setProperty('--primary-color', theme.primary);
         document.documentElement.style.setProperty('--secondary-color', theme.secondary);
         
@@ -197,6 +308,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 '--secondary-color-rgb', 
                 `${secondaryRgb.r}, ${secondaryRgb.g}, ${secondaryRgb.b}`
             );
+        }
+        
+        // 设置主题特定的数据属性
+        if (theme.name === '纯洁白色') {
+            document.body.setAttribute('data-theme', 'white');
+        } else if (theme.name === '纯绝黑色') {
+            document.body.setAttribute('data-theme', 'black');
+        } else {
+            document.body.removeAttribute('data-theme');
         }
         
         // 保存主题选择到本地存储

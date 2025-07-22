@@ -453,7 +453,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // 文件图标
         const fileIcon = document.createElement('span');
         fileIcon.className = 'file-icon';
-        fileIcon.innerHTML = '<svg viewBox="0 0 24 24" width="16" height="16"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm-1 5H7V5h6v2z" fill="#a5d6a7"/></svg>';
+        fileIcon.innerHTML = '';
         
         // 文件名称
         const fileName = document.createElement('span');
@@ -498,7 +498,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         const folderIcon = document.createElement('div');
         folderIcon.className = 'folder-icon';
-        folderIcon.innerHTML = '<svg viewBox="0 0 24 24" width="18" height="18"><path d="M10 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z" fill="#90caf9"/></svg>';
+        folderIcon.innerHTML = '';
         
         const folderName = document.createElement('div');
         folderName.className = 'folder-name';
@@ -548,7 +548,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         return folderItem;
     }
-    
+
     // 递归渲染文件夹结构
     function renderFolderStructure(folder, container, level) {
         // 清空容器，准备重新渲染
@@ -567,7 +567,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 const subFolderIcon = document.createElement('div');
                 subFolderIcon.className = 'folder-icon';
-                subFolderIcon.innerHTML = '<svg viewBox="0 0 24 24" width="14" height="14"><path d="M10 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z" fill="#90caf9"/></svg>';
+                subFolderIcon.innerHTML = '';
                 
                 const subFolderName = document.createElement('span');
                 subFolderName.textContent = file.name;
@@ -605,7 +605,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 const fileIcon = document.createElement('div');
                 fileIcon.className = 'file-icon';
-                fileIcon.innerHTML = '<svg viewBox="0 0 24 24" width="14" height="14"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6z" fill="#a5d6a7"/></svg>';
+                fileIcon.innerHTML = '';
                 
                 const fileName = document.createElement('span');
                 fileName.textContent = file.name;

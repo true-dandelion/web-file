@@ -1,0 +1,371 @@
+/* CSS变量系统 - 主题颜色定义 */
+:root {
+    --primary-color: #ff6b81;
+    --primary-color-rgb: 255, 107, 129;
+    --secondary-color: #6c5ce7;
+    --secondary-color-rgb: 108, 92, 231;
+    --accent-color: #00cec9;
+    --text-color: #2d3436;
+    --light-color: #dfe6e9;
+    --bg-color: #f9f9f9;
+    --shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* 白色主题特殊样式 */
+[data-theme="white"] {
+    --text-color: #333;
+    --bg-color: #ffffff;
+    --light-color: #f5f5f5;
+    --shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* 黑色主题特殊样式 */
+[data-theme="black"] {
+    --text-color: #e0e0e0;
+    --bg-color: #121212;
+    --light-color: #1e1e1e;
+    --shadow: 0 4px 10px rgba(255, 255, 255, 0.05);
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body {
+    font-family: 'Courier New', monospace;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--light-color);
+    color: var(--text-color);
+}
+
+/* 各主题的背景色调整 */
+body:not([data-theme]) {
+    background: linear-gradient(135deg, rgba(255, 107, 129, 0.1), rgba(108, 92, 231, 0.1));
+}
+
+[data-theme="white"] body {
+    background: linear-gradient(135deg, #ffffff, #f5f5f5);
+}
+
+[data-theme="black"] body {
+    background: linear-gradient(135deg, #121212, #1e1e1e);
+}
+.container {
+    width: 90%; /* 中间占据 90% 宽度 */
+    height: 90%; /* 高度也占据 90% */
+    display: flex;
+    flex-direction: column;
+    background-color: var(--bg-color);
+    box-shadow: var(--shadow);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: var(--light-color);
+    border-bottom: 1px solid rgba(var(--primary-color-rgb), 0.2);
+    color: var(--text-color);
+    transition: all 0.3s ease;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.file-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.file-info #filename {
+    font-weight: bold;
+}
+
+.file-info #file-stats {
+    font-size: 12px;
+    opacity: 0.8;
+}
+
+.pagination-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+.pagination-controls button {
+    padding: 5px 12px;
+    border: 1px solid rgba(var(--primary-color-rgb), 0.3);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    cursor: pointer;
+    border-radius: 3px;
+    font-size: 12px;
+    transition: all 0.3s ease;
+}
+
+.pagination-controls button:hover:not(:disabled) {
+    background-color: rgba(var(--primary-color-rgb), 0.1);
+    border-color: var(--primary-color);
+}
+
+.pagination-controls button:disabled {
+    background-color: var(--light-color);
+    color: rgba(var(--text-color), 0.5);
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.pagination-controls #page-info {
+    font-size: 12px;
+    color: var(--text-color);
+    margin: 0 10px;
+}
+.file-content {
+    display: flex;
+    flex-grow: 1;
+    overflow: hidden;
+}
+.line-numbers {
+    background-color: var(--light-color);
+    padding: 10px 8px 10px 5px;
+    text-align: right;
+    color: rgba(var(--text-color), 0.6);
+    user-select: none;
+    border-right: 1px solid rgba(var(--primary-color-rgb), 0.2);
+    overflow-y: auto;
+    overflow-x: hidden;
+    width: 70px;
+    position: relative;
+    flex-shrink: 0;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+}
+
+/* 隐藏行号区域的滚动条 */
+.line-numbers::-webkit-scrollbar {
+    width: 0;
+    background: transparent;
+}
+
+/* Firefox滚动条隐藏 */
+.line-numbers {
+    scrollbar-width: none;
+}
+
+.content {
+    flex-grow: 1;
+    padding: 10px;
+    white-space: pre-wrap;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(var(--primary-color-rgb), 0.6) var(--light-color);
+    position: relative;
+    box-sizing: border-box;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: all 0.3s ease;
+}
+
+.virtual-scroll-wrapper {
+    width: 100%;
+    height: 100%;
+}
+
+.content pre {
+    margin: 0;
+    line-height: 1.2em;
+    font-family: 'Courier New', monospace;
+    tab-size: 4;
+    width: 100%;
+}
+
+/* 自定义滚动条样式（Webkit浏览器） */
+.content::-webkit-scrollbar {
+    width: 10px;
+}
+
+.content::-webkit-scrollbar-track {
+    background: var(--light-color);
+}
+
+.content::-webkit-scrollbar-thumb {
+    background-color: rgba(var(--primary-color-rgb), 0.6);
+    border-radius: 5px;
+}
+
+.content::-webkit-scrollbar-thumb:hover {
+    background-color: var(--primary-color);
+}
+
+/* 黑色主题滚动条特殊样式 */
+[data-theme="black"] .content::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.6);
+}
+
+[data-theme="black"] .content::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+[data-theme="black"] .content {
+    scrollbar-color: rgba(255, 255, 255, 0.6) var(--light-color);
+}
+
+/* 白色主题滚动条特殊样式 */
+[data-theme="white"] .content::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="white"] .content::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+[data-theme="white"] .content {
+    scrollbar-color: rgba(0, 0, 0, 0.4) var(--light-color);
+}
+
+/* 加载指示器样式 */
+.loading-spinner {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    text-align: center;
+}
+
+.loading-spinner .spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid var(--light-color);
+    border-top: 5px solid var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 15px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.loading-spinner p {
+    color: var(--text-color);
+    font-size: 14px;
+}
+
+/* 错误消息样式 */
+.error-message {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    text-align: center;
+    padding: 20px;
+    background-color: var(--bg-color);
+    border: 1px solid rgba(var(--primary-color-rgb), 0.3);
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.error-message h3 {
+    color: var(--text-color);
+    margin-bottom: 10px;
+    transition: color 0.3s ease;
+}
+
+.error-message p {
+    color: var(--text-color);
+    margin-bottom: 15px;
+    transition: color 0.3s ease;
+}
+
+/* 白色主题下的错误消息文字 */
+[data-theme="white"] .error-message h3,
+[data-theme="white"] .error-message p {
+    color: #333;
+}
+
+/* 黑色主题下的错误消息文字 */
+[data-theme="black"] .error-message h3,
+[data-theme="black"] .error-message p {
+    color: #e0e0e0;
+}
+
+.error-message #retry-load {
+    padding: 8px 16px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.error-message #retry-load:hover {
+    background-color: var(--secondary-color);
+}
+
+/* 按钮禁用状态优化 */
+.pagination-controls button.disabled,
+.pagination-controls button:disabled {
+    background-color: #f5f5f5;
+    color: #999;
+    cursor: not-allowed;
+    border: 1px solid #e0e0e0;
+    opacity: 0.6;
+}
+
+
+
+/* Toast 提示样式 */
+.toast {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--primary-color);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 25px;
+    box-shadow: var(--shadow);
+    z-index: 1001;
+    opacity: 0;
+    transition: all 0.3s ease;
+    font-size: 14px;
+}
+
+.toast.show {
+    opacity: 1;
+    animation: toastSlide 0.3s ease;
+}
+
+/* 白色主题Toast特殊样式 */
+[data-theme="white"] .toast {
+    color: #333;
+}
+
+@keyframes toastSlide {
+    from {
+        transform: translateX(-50%) translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+    }
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    /* 移动端样式优化 */
+}

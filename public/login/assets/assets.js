@@ -59,7 +59,7 @@ function connectWebSocket(webqrCodeId) {
             case 'QR_STATUS_UPDATE':
                 if (data.status === 'SCANNED') {
                     qrTip.textContent = '已扫描，请在APP上确认登录';
-                    
+
                     qrCodeElement.innerHTML = `
                         <div class="qr-mask">
                             <p>已扫描</p>
@@ -67,7 +67,7 @@ function connectWebSocket(webqrCodeId) {
                     `;
                 } else if (data.status === 'CONFIRMED') {
                     qrTip.textContent = '登录成功，正在跳转...';
-                    
+
                     // 将authToken存储到cookie中
                     if (data.userInfo && data.userInfo.authToken) {
                         // 保存token到cookie
@@ -76,7 +76,7 @@ function connectWebSocket(webqrCodeId) {
                     } else {
                         console.error('登录成功但未收到authToken');
                     }
-                    
+
                     // 延迟一点再跳转，确保cookie设置完成
                     setTimeout(() => {
                         window.location.href = data.userInfo.redirectUrl;
@@ -95,7 +95,7 @@ function connectWebSocket(webqrCodeId) {
                     }
                 }
                 break;
-                
+
             case 'QR_EXPIRED':
                 qrTip.textContent = '二维码已过期，请刷新';
                 qrCodeElement.innerHTML = `
@@ -110,7 +110,7 @@ function connectWebSocket(webqrCodeId) {
     ws.onerror = () => {
         const qrTip = document.querySelector('.qr-tip');
         qrTip.textContent = '连接异常，请刷新页面重试';
-        
+
         const qrCodeElement = document.querySelector('.qr-code');
         qrCodeElement.innerHTML = `
             <div style="text-align: center;">
@@ -119,7 +119,7 @@ function connectWebSocket(webqrCodeId) {
             </div>
         `;
     };
-    
+
     ws.onclose = () => {
         console.log('WebSocket连接已关闭');
         // 如果是意外关闭，可以在这里处理重连逻辑
@@ -149,7 +149,7 @@ loginForm.addEventListener('submit', async (e) => {
     const formData = new FormData(loginForm);
     const z = formData.get('z');
     const m = formData.get('m');
-    
+
     // 检查用户名和密码是否为空
     const errorMessage = document.querySelector('.error-message');
     if (!z || !z.trim()) {
@@ -157,17 +157,23 @@ loginForm.addEventListener('submit', async (e) => {
         errorMessage.textContent = '请输入用户名';
         return;
     }
-    
+
     if (!m || !m.trim()) {
         errorMessage.style.display = 'block';
         errorMessage.textContent = '请输入密码';
         return;
     }
 
+    // 检查公钥是否已获取
+    if (!globalPublicKey) {
+        errorMessage.style.display = 'block';
+        errorMessage.textContent = '系统初始化中，请稍后重试';
+        return;
+    }
+
     const encryptedData = encryptLoginData(z, m);
-    
+
     if (!encryptedData) {
-        const errorMessage = document.querySelector('.error-message');
         errorMessage.style.display = 'block';
         errorMessage.textContent = '加密过程出错，请稍后重试';
         return;
@@ -180,8 +186,9 @@ loginForm.addEventListener('submit', async (e) => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                y: encryptedData.y,    
-                k: encryptedData.k     
+                y: encryptedData.y,
+                k: encryptedData.k,
+                conversation: globalConversationId
             }),
             credentials: 'include'
         });
@@ -200,4 +207,31 @@ loginForm.addEventListener('submit', async (e) => {
         errorMessage.style.display = 'block';
         errorMessage.textContent = '登录请求出错，请稍后重试';
     }
+});
+
+// 全局变量存储公钥和会话ID
+let globalPublicKey = null;
+let globalConversationId = null;
+
+
+// 页面加载后获取公钥
+document.addEventListener('DOMContentLoaded', function () {
+    fetch('/conversation')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('网络响应错误');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                globalPublicKey = data.m;
+                globalConversationId = data.conversation;
+            } else {
+                console.error('获取公钥失败');
+            }
+        })
+        .catch(error => {
+            console.error('获取失败:', error);
+        });
 });

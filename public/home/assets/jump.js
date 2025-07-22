@@ -134,7 +134,9 @@ function renderFolderStructure(folder, container, level) {
         
         const fileIcon = document.createElement('div');
         fileIcon.className = 'file-icon';
-        fileIcon.innerHTML = '<svg viewBox="0 0 24 24" width="14" height="14"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6z" fill="#a5d6a7"/></svg>';
+
+        const iconSvg = createSvgElement(getFileIcon(file.name));
+        fileIcon.appendChild(iconSvg);
         
         const fileName = document.createElement('span');
         fileName.textContent = file.name;
@@ -158,7 +160,9 @@ function renderFolderStructure(folder, container, level) {
             
             const subFolderIcon = document.createElement('div');
             subFolderIcon.className = 'folder-icon';
-            subFolderIcon.innerHTML = '<svg viewBox="0 0 24 24" width="14" height="14"><path d="M10 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z" fill="#90caf9"/></svg>';
+
+            const iconSvg = createSvgElement(getFileIcon(folderName));
+            subFolderIcon.appendChild(iconSvg);
             
             const subFolderName = document.createElement('span');
             subFolderName.textContent = folderName;
@@ -191,3 +195,4 @@ function renderFolderStructure(folder, container, level) {
         });
     }
 }
+

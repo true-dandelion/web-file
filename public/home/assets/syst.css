@@ -1150,10 +1150,28 @@ body {
     text-align: center;
     cursor: pointer;
     padding: 4px 0;
+    text-decoration: none;
 }
 
 .file-item-share:hover {
     background-color: #e8f5e9;
+    border-radius: 3px;
+}
+
+.file-item-preview{
+    color: #4caf50;
+    width: 80px;
+    text-align: center;
+    cursor: pointer;
+    padding: 4px 0;
+}
+
+.file-item-preview {
+    color: #4caf50;
+}
+
+.file-item-preview:hover {
+    background-color: #ffebee;
     border-radius: 3px;
 }
 

@@ -22,7 +22,332 @@ body {
     color: var(--text-color);
 }
 
-/* 头部样式 */
+body[data-theme="white"] {
+    --text-color: #333;
+    --bg-color: #ffffff;
+    --light-color: #f5f5f5;
+    --shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    color: #333;
+}
+
+body[data-theme="white"] .header {
+    background: linear-gradient(135deg, #ffffff, #f0f0f0);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    color: #333;
+}
+
+body[data-theme="white"] .sidebar {
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    color: #333;
+}
+
+body[data-theme="white"] .nav-menu a {
+    color: #333;
+}
+
+body[data-theme="white"] .nav-menu li.active a {
+    color: #000;
+    font-weight: bold;
+}
+
+body[data-theme="white"] .section h1 {
+    color: #000;
+}
+
+body[data-theme="white"] .section h2 {
+    color: #333;
+}
+
+body[data-theme="white"] .form-control {
+    color: #333;
+    background-color: #ffffff;
+    border-color: #ddd;
+}
+
+body[data-theme="white"] .info-label {
+    color: #666;
+}
+
+body[data-theme="white"] .info-value {
+    color: #333;
+}
+
+body[data-theme="white"] .security-info h3 {
+    color: #000;
+}
+
+body[data-theme="white"] .security-info p {
+    color: #666;
+}
+
+/* 白色主题下的链接操作按钮样式 */
+body[data-theme="white"] .link-actions .action-btn {
+    color: #333;
+}
+
+body[data-theme="white"] .link-actions .action-btn:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    color: #000;
+}
+
+body[data-theme="white"] .action-btn {
+    color: #333;
+}
+
+body[data-theme="white"] .action-btn:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    color: #000;
+}
+
+/* 白色主题下的特定按钮样式 */
+body[data-theme="white"] #changeEmailBtn {
+    color: #333;
+}
+
+body[data-theme="white"] #changeEmailBtn:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    color: #000;
+}
+
+body[data-theme="black"] {
+    --text-color: #e0e0e0;
+    --bg-color: #121212;
+    --light-color: #1e1e1e;
+    --shadow: 0 4px 10px rgba(255, 255, 255, 0.05);
+}
+
+body[data-theme="black"] .header {
+    background: linear-gradient(135deg, #121212, #1e1e1e);
+    box-shadow: 0 2px 10px rgba(255, 255, 255, 0.05);
+    color: #e0e0e0;
+}
+
+body[data-theme="black"] .sidebar {
+    background-color: #1e1e1e;
+    box-shadow: 0 2px 10px rgba(255, 255, 255, 0.05);
+}
+
+body[data-theme="black"] .content {
+    background-color: #121212;
+    color: #e0e0e0;
+}
+
+body[data-theme="black"] .section h1 {
+    color: #e0e0e0;
+}
+
+body[data-theme="black"] .nav-menu a {
+    color: #b0b0b0;
+}
+
+body[data-theme="black"] .nav-menu li.active a {
+    color: #ffffff;
+}
+
+body[data-theme="black"] .form-control {
+    background-color: #1e1e1e;
+    border-color: #333;
+    color: #e0e0e0;
+}
+
+body[data-theme="black"] .form-control:focus {
+    border-color: #4a4a4a;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
+}
+
+body[data-theme="black"] .modal-container {
+    background-color: #1e1e1e;
+    color: #e0e0e0;
+}
+
+body[data-theme="black"] .modal-header {
+    border-bottom-color: #333;
+}
+
+body[data-theme="black"] .modal-footer {
+    border-top-color: #333;
+}
+
+body[data-theme="black"] .account-container {
+    background-color: #1e1e1e;
+}
+
+body[data-theme="black"] .security-item {
+    background-color: #121212;
+}
+
+body[data-theme="black"] .security-info h3 {
+    color: #e0e0e0;
+}
+
+body[data-theme="black"] .security-info p {
+    color: #b0b0b0;
+}
+
+/* 黑色主题下的信息标签和值 */
+body[data-theme="black"] .info-label {
+    color: #b0b0b0;
+}
+
+body[data-theme="black"] .info-value {
+    color: #e0e0e0;
+}
+
+/* 黑色主题下的主题卡片名称 */
+body[data-theme="black"] .theme-name {
+    color: #e0e0e0;
+}
+
+/* 黑色主题下的按钮样式 */
+body[data-theme="black"] .refresh-btn {
+    border-color: #e0e0e0;
+    color: #e0e0e0;
+}
+
+body[data-theme="black"] .refresh-btn:hover {
+    background-color: #e0e0e0;
+    color: #121212;
+}
+
+body[data-theme="black"] .action-btn {
+    color: #e0e0e0;
+}
+
+body[data-theme="black"] .action-btn:hover {
+    background-color: rgba(224, 224, 224, 0.1);
+}
+
+/* 黑色主题下的图标颜色 */
+body[data-theme="black"] .icon svg {
+    stroke: #e0e0e0;
+}
+
+body[data-theme="black"] .refresh-btn .icon svg {
+    stroke: currentColor;
+}
+
+/* 黑色主题下的分享链接容器 */
+body[data-theme="black"] .share-links-container {
+    background-color: #1e1e1e;
+    color: #e0e0e0;
+}
+
+body[data-theme="black"] .share-links-header h2 {
+    color: #e0e0e0;
+}
+
+/* 黑色主题下的分享链接卡片 */
+body[data-theme="black"] .share-link-card {
+    background-color: #121212;
+    color: #e0e0e0;
+}
+
+body[data-theme="black"] .share-link-card .file-name {
+    color: #e0e0e0;
+}
+
+body[data-theme="black"] .share-link-card .info-label {
+    color: #b0b0b0;
+}
+
+body[data-theme="black"] .share-link-card .info-value {
+    color: #e0e0e0;
+}
+
+body[data-theme="black"] .share-link-card .file-path {
+    color: #888;
+}
+
+/* 黑色主题下的段落文字 */
+body[data-theme="black"] .section p {
+    color: #b0b0b0;
+}
+
+/* 黑色主题下的加载和空状态文字 */
+body[data-theme="black"] .loading-indicator p {
+    color: #b0b0b0;
+}
+
+body[data-theme="black"] .empty-state {
+    color: #888;
+}
+
+body[data-theme="black"] .empty-state p {
+    color: #888;
+}
+
+/* 黑色主题下的主题卡片背景 */
+body[data-theme="black"] .theme-card {
+    background-color: #1e1e1e;
+    border-color: #333;
+}
+
+body[data-theme="black"] .theme-card:hover {
+    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.05);
+}
+
+/* 黑色主题下的用户名区域 */
+body[data-theme="black"] #id-username {
+    color: #e0e0e0;
+    background-color: rgba(224, 224, 224, 0.1);
+}
+
+body[data-theme="black"] #id-username:hover {
+    background-color: rgba(224, 224, 224, 0.15);
+}
+
+/* 黑色主题下的提取码样式 */
+body[data-theme="black"] .extract-code {
+    background-color: rgba(224, 224, 224, 0.1);
+    color: #e0e0e0;
+}
+
+/* 黑色主题下的模态框标题 */
+body[data-theme="black"] .modal-header h3 {
+    color: #e0e0e0;
+}
+
+/* 黑色主题下的模态框描述文字 */
+body[data-theme="black"] .modal-body .modal-message {
+    color: #e0e0e0;
+}
+
+body[data-theme="black"] .modal-body .modal-description {
+    color: #b0b0b0;
+}
+
+body[data-theme="black"] .modal-body .modal-file-info {
+    background-color: #121212;
+}
+
+body[data-theme="black"] .modal-body .modal-file-name {
+    color: #e0e0e0;
+}
+
+body[data-theme="black"] .modal-body .modal-file-path {
+    color: #b0b0b0;
+}
+
+body[data-theme="black"] .modal-body .modal-share-link {
+    color: #e0e0e0;
+}
+
+/* 黑色主题下的关闭按钮 */
+body[data-theme="black"] .close-modal {
+    color: #b0b0b0;
+}
+
+body[data-theme="black"] .close-modal:hover {
+    background-color: #333;
+    color: #e0e0e0;
+}
+
+/* 黑色主题下的账户标题 */
+body[data-theme="black"] .account-header h2 {
+    color: #e0e0e0;
+}
+
 .header {
     position: fixed;
     top: 0;
@@ -97,7 +422,6 @@ body {
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-/* 容器样式 */
 .container {
     display: flex;
     min-height: 100vh;
@@ -105,7 +429,6 @@ body {
     overflow: hidden;
 }
 
-/* 侧边栏样式 */
 .sidebar {
     width: 220px;
     background-color: white;
@@ -135,7 +458,6 @@ body {
     pointer-events: none;
 }
 
-/* 侧边栏头部样式 */
 .sidebar-header {
     padding: 20px 15px;
     display: flex;
@@ -179,6 +501,14 @@ body {
     color: var(--primary-color);
     font-size: 16px;
     margin-top: 5px;
+}
+
+body[data-theme="white"] .username {
+    color: #000;
+}
+
+body[data-theme="black"] .username {
+    color: #ffffff;
 }
 
 #id-username {
@@ -272,7 +602,6 @@ body {
     align-items: center;
 }
 
-/* SVG图标样式 */
 .nav-menu .icon {
     display: flex;
     align-items: center;
@@ -310,7 +639,6 @@ body {
     background-color: rgba(var(--primary-color-rgb), 0.05);
 }
 
-/* 主内容区域 */
 .content {
     flex: 1;
     padding: 20px;
@@ -324,7 +652,6 @@ body {
     height: calc(100vh - 90px);
 }
 
-/* 主题选择器样式 */
 .theme-cards {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
@@ -381,7 +708,6 @@ body {
     font-size: 14px;
 }
 
-/* 内容区域的分节样式 */
 .section {
     display: none;
     animation: fadeIn 0.5s ease;
@@ -458,7 +784,6 @@ body {
     margin-bottom: 15px;
 }
 
-/* 可爱的动画元素 */
 .section::after {
     content: "";
     position: absolute;
@@ -482,7 +807,6 @@ body {
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* 响应式设计 */
 @media (max-width: 768px) {
     .sidebar {
         width: 60px;
@@ -516,23 +840,20 @@ body {
     }
     
     .content {
-        margin-left: 65px; /* 60px侧边栏宽度 + 5px原有margin */
+        margin-left: 65px;
         margin-right: 5px;
         padding: 15px 10px;
     }
     
-    /* 移动设备上调整section内容 */
     .section {
         padding-right: 5px;
     }
     
-    /* 移动设备上调整模态窗口 */
     .modal-container {
         width: 95%;
         max-width: 350px;
     }
     
-    /* 移动设备上调整分享链接卡片 */
     .share-link-card {
         padding: 12px;
     }
@@ -551,9 +872,6 @@ body {
     }
 }
 
-/* 在文件末尾添加链接管理相关样式 */
-
-/* 分享链接容器样式 */
 .share-links-container {
     background-color: #fff;
     border-radius: 10px;
@@ -601,7 +919,6 @@ body {
     height: 16px;
 }
 
-/* 加载指示器样式 */
 .loading-indicator {
     display: flex;
     flex-direction: column;
@@ -632,7 +949,6 @@ body {
     margin: 0;
 }
 
-/* 空状态样式 */
 .empty-state {
     display: flex;
     flex-direction: column;
@@ -654,7 +970,6 @@ body {
     margin: 0;
 }
 
-/* 分享链接列表样式 */
 .share-links-list {
     display: grid;
     grid-template-columns: 1fr;
@@ -667,7 +982,6 @@ body {
     }
 }
 
-/* 分享链接卡片样式 */
 .share-link-card {
     background-color: #f9f9f9;
     border-radius: 8px;
@@ -777,7 +1091,6 @@ body {
     border-radius: 10px;
 }
 
-/* 复制提示 */
 .copy-tooltip {
     position: fixed;
     background-color: rgba(0, 0, 0, 0.8);
@@ -795,7 +1108,6 @@ body {
     opacity: 1;
 }
 
-/* 删除按钮特殊样式 */
 .share-link-card .delete-link-btn {
     color: #ff5252;
     margin-left: auto;
@@ -810,7 +1122,6 @@ body {
     background-color: rgba(255, 82, 82, 0.05);
 }
 
-/* 模态窗口样式 */
 .modal {
     display: none;
 }
@@ -893,7 +1204,6 @@ body {
     padding: 20px;
 }
 
-/* 删除确认模态框特定样式 */
 .modal-body .modal-icon {
     width: 60px;
     height: 60px;
@@ -982,7 +1292,6 @@ body {
     box-shadow: 0 2px 8px rgba(var(--primary-color-rgb, 66, 133, 244), 0.3);
 }
 
-/* 账户管理样式 */
 .account-container {
     background-color: #fff;
     border-radius: 10px;
@@ -1130,7 +1439,6 @@ body {
     box-shadow: 0 2px 8px rgba(var(--primary-color-rgb, 66, 133, 244), 0.3);
 }
 
-/* 安全设置样式 */
 .account-security-container {
     display: flex;
     flex-direction: column;
@@ -1180,7 +1488,6 @@ body {
     color: white;
 }
 
-/* 开关按钮样式 */
 .toggle-switch {
     position: relative;
     width: 50px;
@@ -1225,7 +1532,6 @@ body {
     transform: translateX(26px);
 }
 
-/* 密码修改表单样式 */
 .password-form {
     width: 100%;
 }
@@ -1266,7 +1572,6 @@ body {
     margin-top: 5px;
 }
 
-/* 设备管理样式 */
 .devices-modal {
     max-width: 600px;
     width: 90%;
@@ -1274,7 +1579,7 @@ body {
 }
 
 .devices-modal .modal-body {
-    height: calc(100% - 60px); /* 减去header的高度 */
+    height: calc(100% - 60px);
     padding: 0;
     display: flex;
     flex-direction: column;
@@ -1346,7 +1651,6 @@ body {
     color: white;
 }
 
-/* 响应式调整 */
 @media (max-width: 768px) {
     .account-info-container {
         flex-direction: column;
@@ -1373,7 +1677,6 @@ body {
     }
 }
 
-/* 设备管理相关样式 */
 .devices-list .loading-indicator {
     display: flex;
     flex-direction: column;
@@ -1506,7 +1809,6 @@ body {
     }
 }
 
-/* 邮件表单样式 */
 .email-form {
     width: 100%;
 }
@@ -1544,7 +1846,6 @@ body {
     border-top: none;
 }
 
-/* 验证邮件样式 */
 .verify-message {
     margin-bottom: 20px;
     text-align: center;
@@ -1566,7 +1867,6 @@ body {
     color: var(--primary-color);
 }
 
-/* 验证码输入区域新样式 */
 .verify-code-container {
     margin-bottom: 20px;
 }
@@ -1616,7 +1916,6 @@ body {
     font-size: 16px;
 }
 
-/* 响应式调整 */
 @media (max-width: 480px) {
     .code-input-wrapper {
         flex-direction: column;
@@ -1626,4 +1925,28 @@ body {
     .send-code-btn {
         width: 100%;
     }
+}
+
+body[data-theme="white"] .toast {
+    background-color: #333 !important;
+    color: white !important;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+body[data-theme="white"] .icon[data-icon] {
+    color: #000;
+    fill: #000;
+}
+
+body[data-theme="white"] .icon[data-icon] svg {
+    stroke: #000;
+}
+
+body[data-theme="black"] .icon[data-icon] {
+    color: #ffffff;
+    fill: #ffffff;
+}
+
+body[data-theme="black"] .icon[data-icon] svg {
+    stroke: #ffffff;
 }
