@@ -482,7 +482,7 @@ function setupVerifyRoutes(router, wsService) {
     wsService.sendScanNotification(qrCodeId);
 
     // 重定向到静态HTML页面
-    res.sendFile(path.join(__dirname, '../public/app/scan.html'));
+    res.sendFile(path.join(__dirname, '../../public/app/scan.html'));
   });
 
   // 移动端确认登录接口
