@@ -54,16 +54,67 @@ let server;
 
 // 设置HTTPS服务器
 if (HTTPS_ENABLED) {
-  // 读取证书配置
-  const certFile = config.https.cert || '';
-  const keyFile = config.https.key || '';
-  
-  // 创建证书选项
   try {
-    const httpsOptions = {
-      cert: fs.readFileSync(path.join(__dirname, 'certificate', certFile)),
-      key: fs.readFileSync(path.join(__dirname, 'certificate', keyFile))
-    };
+    // 检查是否使用多域名配置
+    const useMultiDomain = config.https['domains-t'] || false;
+    
+    let httpsOptions = {};
+    
+    if (useMultiDomain) {
+      
+      // 加载所有域名的证书
+      const domainCerts = {};
+      const domains = config.https.domains || {};
+      
+      for (const [domain, certConfig] of Object.entries(domains)) {
+        try {
+          domainCerts[domain] = {
+            cert: fs.readFileSync(path.join(__dirname, 'certificate', certConfig.cert)),
+            key: fs.readFileSync(path.join(__dirname, 'certificate', certConfig.key))
+          };
+        } catch (error) {
+          console.error(`加载域名 ${domain} 证书失败:`, error.message);
+        }
+      }
+      
+      if (Object.keys(domainCerts).length === 0) {
+        throw new Error('没有可用的域名证书');
+      }
+      
+      // 创建支持SNI的HTTPS服务器
+      httpsOptions = {
+        SNICallback: (servername, callback) => {
+          const certs = domainCerts[servername];
+          if (certs) {
+            callback(null, require('tls').createSecureContext(certs));
+          } else {
+            // 如果没有匹配的域名证书，使用第一个域名的证书
+            const firstDomain = Object.keys(domainCerts)[0];
+            console.warn(`未找到域名 ${servername} 的证书，使用 ${firstDomain} 的证书`);
+            callback(null, require('tls').createSecureContext(domainCerts[firstDomain]));
+          }
+        }
+      };
+      
+      // 添加默认证书（用于没有SNI支持的客户端）
+      const firstDomain = Object.keys(domainCerts)[0];
+      httpsOptions.cert = domainCerts[firstDomain].cert;
+      httpsOptions.key = domainCerts[firstDomain].key;
+      
+    } else {
+      
+      const certFile = config.https.cert || '';
+      const keyFile = config.https.key || '';
+      
+      if (!certFile || !keyFile) {
+        throw new Error('单域名模式下必须配置cert和key文件');
+      }
+      
+      httpsOptions = {
+        cert: fs.readFileSync(path.join(__dirname, 'certificate', certFile)),
+        key: fs.readFileSync(path.join(__dirname, 'certificate', keyFile))
+      };
+    }
     
     // 创建HTTPS服务器
     const httpsServer = https.createServer(httpsOptions, app);
@@ -71,6 +122,10 @@ if (HTTPS_ENABLED) {
     // 启动HTTPS服务器
     httpsServer.listen(HTTPS_PORT, () => {
       console.log(`HTTPS服务运行中，端口为：${HTTPS_PORT}`);
+      if (useMultiDomain) {
+        const domains = Object.keys(config.https.domains || {});
+      } else {
+      }
     });
     
     // 配置HTTP服务器以重定向到HTTPS
@@ -79,7 +134,7 @@ if (HTTPS_ENABLED) {
       // 获取主机名，排除端口
       const host = req.headers.host.split(':')[0];
       // 重定向到HTTPS版本
-      res.redirect(301, `https://${host}:${HTTPS_PORT}${req.url}`);
+      res.redirect(301, `https://${host}${req.url}`);
     });
     
     // 启动HTTP服务器（只用于重定向）
