@@ -3,7 +3,18 @@
   "https": {
     "enabled": false,
     "port": 443,
-    "cert": "",
-    "key": ""
+    "domains-t": false,
+    "cert": "单域名证书",
+    "key": "单域名证书",
+    "domains": {
+      "域名": {
+        "cert": "多域名证书",
+        "key": "多域名证书"
+      },
+      "域名": {
+        "cert": "多域名证书",
+        "key": "多域名证书"
+      }
+    }
   }  
 }
