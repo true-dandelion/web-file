@@ -8,8 +8,8 @@ const app = express();
 
 // 导入配置
 let config = require('./config/process.json');
-let PORT = config.port || 1111;
-let HTTPS_PORT = config.https?.port || 1112;
+let PORT = config.port || 1110;
+let HTTPS_PORT = config.https?.port || 1111;
 let HTTPS_ENABLED = config.https?.enabled || false;
 
 // 设置中间件
@@ -134,7 +134,7 @@ if (HTTPS_ENABLED) {
       // 获取主机名，排除端口
       const host = req.headers.host.split(':')[0];
       // 重定向到HTTPS版本
-      res.redirect(301, `https://${host}${req.url}`);
+      res.redirect(301, `https://${host}:${HTTPS_PORT}${req.url}`);
     });
     
     // 启动HTTP服务器（只用于重定向）
