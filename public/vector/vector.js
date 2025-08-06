@@ -66,7 +66,6 @@ function appendSvgIcon(parent, iconType) {
   return svgElement;
 }
 
-// 将函数和变量挂载到 window 对象上
 window.VectorIcons = {
   file,
   folderIcon,

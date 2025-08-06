@@ -1,3 +1,4 @@
+// 主题系统配置 - 只保留纯黑和纯白两个主题
 const themes = [
     {
         name: '纯洁白色主题',
@@ -60,7 +61,7 @@ function getThemeByTime() {
     const now = new Date();
     const hour = now.getHours();
 
-    // 6:00-20:00 使用白色主题，20:00-6:00 使用黑色主题
+    // 6:00-20:00 使用白色主题，18:00-6:00 使用黑色主题
     if (hour >= 6 && hour < 20) {
         return 0; // 白色主题
     } else {
