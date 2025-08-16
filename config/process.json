@@ -1,0 +1,20 @@
+{
+  "port": 80,
+  "https": {
+    "enabled": false,
+    "port": 443,
+    "domains-t": false,
+    "cert": "",
+    "key": "",
+    "domains": {
+      "domain name1": {
+        "cert": "",
+        "key": ""
+      },
+      "domain name2": {
+        "cert": "",
+        "key": ""
+      }
+    }
+  }  
+}
