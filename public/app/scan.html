@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录确认</title>
+    <style>
+      html, body { 
+        font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        width: 100%;
+        background-color: #ffffff;
+      }
+      .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 100vh;
+        width: 100%;
+        position: relative;
+        box-sizing: border-box;
+      }
+      
+      .title {
+        font-size: 18px;
+        font-weight: 500;
+        margin: 0;
+        padding-top: 90px;
+        text-align: center;
+      }
+      
+      .warning-text {
+        color: #ff5b5b;
+        font-size: 14px;
+        line-height: 1.5;
+        text-align: center;
+        padding: 20px 30px;
+        margin-top: 20px;
+      }
+      
+      .bottom-section {
+        position: fixed;
+        bottom: 30px;
+        left: 0;
+        width: 100%;
+        padding: 0 20px;
+        box-sizing: border-box;
+      }
+      
+      .error-message {
+        color: #ff5b5b;
+        font-size: 14px;
+        text-align: center;
+        margin-bottom: 15px;
+      }
+      
+      .confirm-button {
+        width: 100%;
+        padding: 12px;
+        background-color: #09aaff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-size: 16px;
+        cursor: pointer;
+        margin-bottom: 10px;
+      }
+      
+      .reject-button {
+        width: 100%;
+        padding: 12px;
+        background-color: white;
+        color: #333;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 16px;
+        cursor: pointer;
+        margin-bottom: 15px;
+      }
+      
+      .switch-account {
+        display: block;
+        text-align: center;
+        color: #09aaff;
+        text-decoration: none;
+        font-size: 14px;
+        margin-top: 10px;
+      }
+
+      /* 账号选择区域样式 */
+      .account-section {
+        display: none;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background-color: #fff;
+        border-top: 1px solid #eee;
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+        z-index: 100;
+        height: 50vh; /* 占据屏幕高度的一半 */
+        min-height: 300px; /* 最小高度 */
+      }
+      
+      .account-section-header {
+        padding: 15px;
+        background-color: #f9f9f9;
+        font-size: 16px;
+        color: #333;
+        text-align: center;
+        border-bottom: 1px solid #eee;
+        position: relative;
+      }
+      
+      .account-list {
+        padding: 0;
+        overflow-y: auto;
+        height: calc(100% - 50px); /* 减去头部高度 */
+      }
+      
+      .account-item {
+        display: flex;
+        align-items: center;
+        padding: 15px;
+        border-bottom: 1px solid #f0f0f0;
+        cursor: pointer;
+      }
+      
+      .account-header-close {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        font-size: 16px;
+        color: #999;
+        background: none;
+        border: none;
+        cursor: pointer;
+      }
+      
+      .account-avatar {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background-color: #f0f0f0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 10px;
+        overflow: hidden;
+      }
+      
+      .account-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      
+      .account-info {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      
+      .account-name {
+        font-size: 14px;
+        color: #333;
+        margin-bottom: 2px;
+      }
+      
+      .account-id {
+        font-size: 12px;
+        color: #999;
+      }
+
+      /* 隐藏原来的账号弹窗 */
+      .account-modal {
+        display: none !important;
+      }
+
+      /* 账号信息显示样式 */
+      .account-info-display {
+        text-align: center;
+        margin-top: 15px;
+        padding: 10px;
+        background-color: #f5f9ff;
+        border-radius: 4px;
+        font-size: 14px;
+        color: #333;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2 class="title">登录确认</h2>
+      
+      <div class="warning-text">
+        请确认这设备你身边并且是你本人登录，不是本人登录可能会导致你的账号或者资金被盗。
+      </div>
+      
+      <!-- 添加账号信息显示区域 -->
+      <div id="accountInfoDisplay" class="account-info-display"></div>
+      
+      <div class="bottom-section">
+        <div id="resultMessage" class="error-message"></div>
+        
+        <button id="confirmBtn" class="confirm-button" onclick="handleLogin('confirm')">确认</button>
+        <button id="rejectBtn" class="reject-button" onclick="handleLogin('reject')">拒绝</button>
+        <a href="javascript:void(0)" class="switch-account" onclick="switchAccount()">切换账号</a>
+      </div>
+    </div>
+
+    <!-- 账号选择区域 -->
+    <div id="accountSection" class="account-section">
+      <div class="account-section-header">
+        <button class="account-header-close" onclick="hideAccountSection()">&larr;</button>
+        选择要登录的账号
+      </div>
+      <div id="accountListInline" class="account-list">
+        <!-- 账号列表将在这里动态生成 -->
+      </div>
+    </div>
+
+    <!-- 账号选择弹窗（已不使用） -->
+    <div id="accountModal" class="account-modal">
+      <button class="account-close-btn" onclick="closeAccountModal()">&larr;</button>
+      <div class="account-modal-header">
+        <div class="account-modal-title">选择要登录的账号</div>
+      </div>
+      <div id="accountList" class="account-list">
+        <!-- 账号列表将在这里动态生成 -->
+      </div>
+    </div>
+
+    <script>
+      // 存储当前用户token和信息
+      let currentUserToken = '';
+      let currentUserInfo = null;
+    
+      // 页面加载时获取第一个账号的token
+      document.addEventListener('DOMContentLoaded', function() {
+        fetchFirstAccountToken();
+      });
+    
+      // 获取第一个账号的token
+      function fetchFirstAccountToken() {
+        try {
+          if (typeof Android !== 'undefined') {
+            // 调用Android接口获取账号列表
+            const accountsJson = Android.getAccountList();
+            const response = JSON.parse(accountsJson);
+            
+            if (response.success && response.accounts && response.accounts.length > 0) {
+              // 获取排序第一的账号
+              const firstAccount = response.accounts[0];
+              // 使用authToken字段获取token
+              currentUserToken = firstAccount.authToken || '';
+              currentUserInfo = firstAccount;
+              
+              // 显示账号信息
+              displayAccountInfo(firstAccount);
+              
+              // 打印token (仅开发调试用)
+              console.log('获取到的用户token:', currentUserToken);
+            } else {
+              // 获取不到账号信息，隐藏按钮后跳转到app
+              hideAllButtons();
+              redirectToApp();
+            }
+          } else {
+            // 非Android环境，隐藏按钮后跳转到app
+            hideAllButtons();
+            redirectToApp();
+          }
+        } catch (e) {
+          console.error('获取账号token出错:', e);
+          // 出错时隐藏按钮后跳转到app
+          hideAllButtons();
+          redirectToApp();
+        }
+      }
+      
+      // 隐藏所有按钮的函数
+      function hideAllButtons() {
+        // 隐藏确认按钮
+        const confirmBtn = document.getElementById('confirmBtn');
+        if (confirmBtn) confirmBtn.style.display = 'none';
+        
+        // 隐藏拒绝按钮
+        const rejectBtn = document.getElementById('rejectBtn');
+        if (rejectBtn) rejectBtn.style.display = 'none';
+        
+        // 隐藏切换账号按钮
+        const switchAccountBtn = document.querySelector('.switch-account');
+        if (switchAccountBtn) switchAccountBtn.style.display = 'none';
+      }
+      
+      // 跳转到app的函数
+      function redirectToApp() {
+        try {
+          // 获取当前URL地址
+          const currentUrl = window.location.href;
+          
+          // 修复可能存在的URL格式问题
+          let cleanUrl = currentUrl;
+          
+          // 处理http://https//等错误格式
+          if (cleanUrl.includes('http://http')) {
+            cleanUrl = cleanUrl.replace('http://http', 'http');
+          }
+          if (cleanUrl.includes('http://https')) {
+            cleanUrl = cleanUrl.replace('http://https', 'https');
+          }
+          if (cleanUrl.includes('https://http')) {
+            cleanUrl = cleanUrl.replace('https://http', 'http');
+          }
+          
+          // 修复协议格式 (http// 或 https// 改为 http:// 或 https://)
+          cleanUrl = cleanUrl.replace(/http\/\//g, 'http://');
+          cleanUrl = cleanUrl.replace(/https\/\//g, 'https://');
+          
+          // 然后再移除协议来构建应用链接
+          if (cleanUrl.startsWith('http://')) {
+            cleanUrl = cleanUrl.substring(7);
+          } else if (cleanUrl.startsWith('https://')) {
+            cleanUrl = cleanUrl.substring(8);
+          }
+          
+          // 构建跳转URL
+          const appUrl = `delion://${cleanUrl}`;
+          
+          // 打印跳转地址(调试用)
+          console.log('跳转到:', appUrl);
+          
+          // 立即跳转到app
+          window.location.href = appUrl;
+        } catch (e) {
+          console.error('重定向到应用出错:', e);
+          // 如果出错，尝试简单地打开应用
+          window.location.href = 'delion://';
+        }
+      }
+    
+      // 显示账号信息
+      function displayAccountInfo(accountInfo) {
+        const displayEl = document.getElementById('accountInfoDisplay');
+        if (!accountInfo) {
+          displayEl.style.display = 'none';
+          return;
+        }
+        
+        const accountName = accountInfo.nickname || accountInfo.username || '';
+        const accountId = accountInfo.userId || '';
+        
+        displayEl.innerHTML = `已选择账号: ${accountName}`;
+        displayEl.style.display = 'block';
+      }
+          
+      // 统一处理登录确认/拒绝的函数
+      function handleLogin(action) {
+        // 禁用所有按钮，防止重复点击
+        document.getElementById('confirmBtn').disabled = true;
+        document.getElementById('rejectBtn').disabled = true;
+        
+        // 显示正在处理的消息
+        const actionText = action === 'confirm' ? '登录' : '拒绝登录';
+        document.getElementById('resultMessage').innerHTML = `正在${actionText}...`;
+        
+        // 如果是拒绝操作，立即调用Android关闭网页API
+        if (action === 'reject') {
+          // 后台发送拒绝操作到服务器（不等待响应）
+          fetch('/mobile/confirm', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${currentUserToken}` // 添加token到请求头
+            },
+            body: JSON.stringify({ action: 'reject' })
+          }).catch(err => {
+            console.error('发送拒绝请求失败:', err);
+          });
+          
+          if (typeof Android !== 'undefined') {
+            // 立即关闭WebView，不等待后端响应
+            Android.closeWebView();
+          } else {
+            // 如果不在Android环境中，尝试关闭窗口
+            setTimeout(function() {
+              window.close();
+            }, 1000);
+          }
+          
+          return; // 不继续执行后面的代码
+        }
+        
+        // 构建要发送的数据，包含操作类型
+        const data = {
+          action: action // 此时action只可能是'confirm'
+        };
+        
+        // 发送请求到后端，添加token到请求头
+        fetch('/mobile/confirm', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${currentUserToken}` // 添加token到请求头
+          },
+          body: JSON.stringify(data)
+        })
+        .then(res => res.json())
+        .then(result => {
+          if (result.success) {
+            // 登录成功处理
+            document.getElementById('resultMessage').innerHTML = '登录成功';
+            
+            // 隐藏所有按钮
+            document.getElementById('confirmBtn').style.display = 'none';
+            document.getElementById('rejectBtn').style.display = 'none';
+            document.querySelector('.switch-account').style.display = 'none';
+            document.getElementById('accountSection').style.display = 'none';
+            
+            // 延迟关闭页面，让用户可以看到成功消息
+            setTimeout(function() {
+              if (typeof Android !== 'undefined') {
+                // 关闭WebView
+                Android.closeWebView();
+              } else {
+                // 如果不在Android环境中，尝试关闭窗口
+                window.close();
+              }
+            }, 1500); // 1.5秒后关闭
+          } else {
+            // 处理失败情况
+            document.getElementById('resultMessage').innerHTML = result.message || `登录请求失败，请重试`;
+            document.getElementById('confirmBtn').disabled = false;
+            document.getElementById('rejectBtn').disabled = false;
+          }
+        })
+        .catch(err => {
+          document.getElementById('resultMessage').innerHTML = `登录请求失败，请重试`;
+          document.getElementById('confirmBtn').disabled = false;
+          document.getElementById('rejectBtn').disabled = false;
+        });
+      }
+          
+      // 切换账号列表显示/隐藏
+      function switchAccount() {
+        try {
+          const accountSection = document.getElementById('accountSection');
+          
+          // 如果账号列表已显示，则隐藏它
+          if (accountSection.style.display === 'block') {
+            accountSection.style.display = 'none';
+            return;
+          }
+          
+          document.getElementById('resultMessage').innerHTML = '正在获取账号列表...';
+          
+          // 检查Android接口是否可用
+          if (typeof Android !== 'undefined') {
+            // 调用API获取账号列表
+            const accountsJson = Android.getAccountList();
+            
+            // 解析返回的JSON数据
+            const response = JSON.parse(accountsJson);
+            
+            if (response.success && response.accounts && response.accounts.length > 0) {
+              // 成功获取账号列表，清除提示信息
+              document.getElementById('resultMessage').innerHTML = '';
+              
+              // 生成账号列表HTML
+              const accountListEl = document.getElementById('accountListInline');
+              accountListEl.innerHTML = '';
+              
+              response.accounts.forEach(account => {
+                const isActive = account.isActive || false;
+                const accountId = account.username || ''; // 使用username作为账号ID
+                const accountName = account.nickname || account.username || '用户';
+                const avatarUrl = account.avatarUrl || '';
+                const authToken = account.authToken || ''; // 新增：获取账号的authToken
+                
+                // 创建账号项元素
+                const accountItem = document.createElement('div');
+                accountItem.className = 'account-item';
+                if (isActive) {
+                  accountItem.classList.add('active');
+                }
+                accountItem.setAttribute('data-id', accountId);
+                accountItem.setAttribute('data-token', authToken); // 存储token到元素属性
+                
+                // 账号项的HTML内容
+                accountItem.innerHTML = `
+                      <div class="account-avatar">
+                        ${avatarUrl ? `<img src="${avatarUrl}" alt="${accountName}">` : accountName.charAt(0)}
+                      </div>
+                      <div class="account-info">
+                        <div class="account-name">${accountName}</div>
+                        <div class="account-id">${accountId}</div>
+                      </div>
+                    `;
+                    
+                    // 点击账号项切换到该账号
+                    accountItem.addEventListener('click', function() {
+                      selectAccount(accountId, this.getAttribute('data-token')); // 传递token
+                    });
+                    
+                    accountListEl.appendChild(accountItem);
+                  });
+                  
+                  // 显示账号选择区域
+                  accountSection.style.display = 'block';
+                } else {
+                  // 处理无账号情况
+                  document.getElementById('resultMessage').innerHTML = response.message || '没有可用的账号';
+                }
+              } else {
+                // 非Android环境
+                document.getElementById('resultMessage').innerHTML = '此功能仅在Android应用中可用';
+              }
+            } catch (e) {
+              console.error('切换账号出错:', e);
+              document.getElementById('resultMessage').innerHTML = '切换账号失败: ' + e.message;
+            }
+          }
+          
+          // 选择账号
+          function selectAccount(accountId, token) {
+            try {
+              if (typeof Android !== 'undefined' && typeof Android.switchAccount === 'function') {
+                // 调用Android接口切换账号
+                Android.switchAccount(accountId);
+                // 隐藏账号选择区域
+                document.getElementById('accountSection').style.display = 'none';
+                
+                // 显示加载提示
+                document.getElementById('resultMessage').innerHTML = '正在切换账号...';
+                
+                // 更新全局token和用户信息
+                currentUserToken = token;
+                currentUserInfo = { userId: accountId, authToken: token };
+                
+                // 重新显示账号信息
+                displayAccountInfo(currentUserInfo);
+                
+                console.log('成功切换账号，新token:', currentUserToken);
+              } else {
+                // 非Android环境下模拟账号切换过程
+                console.log('选择账号:', accountId, '，token:', token);
+                
+                // 更新全局token和用户信息
+                currentUserToken = token;
+                currentUserInfo = { userId: accountId, authToken: token };
+                
+                // 查找账号名称用于显示
+                const accountSection = document.getElementById('accountListInline');
+                const accountItems = accountSection.querySelectorAll('.account-item');
+                let accountName = '未知用户';
+                
+                for (let i = 0; i < accountItems.length; i++) {
+                  if (accountItems[i].getAttribute('data-id') === accountId) {
+                    accountName = accountItems[i].querySelector('.account-name').textContent;
+                    break;
+                  }
+                }
+                
+                // 更新显示的账号信息
+                currentUserInfo.nickname = accountName;
+                displayAccountInfo(currentUserInfo);
+                
+                // 隐藏账号选择区域
+                document.getElementById('accountSection').style.display = 'none';
+              }
+            } catch (e) {
+              console.error('选择账号出错:', e);
+              document.getElementById('resultMessage').innerHTML = '选择账号失败: ' + e.message;
+            }
+          }
+          
+          // 关闭账号选择弹窗 (保留但不再使用)
+          function closeAccountModal() {
+            document.getElementById('accountModal').style.display = 'none';
+          }
+          
+          // 隐藏账号选择区域
+          function hideAccountSection() {
+            document.getElementById('accountSection').style.display = 'none';
+          }
+        </script>
+  </body>
+</html> 

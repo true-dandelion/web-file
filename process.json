@@ -1,0 +1,20 @@
+{
+  "port": 1110,
+  "https": {
+    "enabled": false,
+    "port": 1111,
+    "domains-t": true,
+    "cert": "",
+    "key": "",
+    "domains": {
+      "sh.shaoxin.top": {
+        "cert": "sh.shaoxin.top.pem",
+        "key": "sh.shaoxin.top.key"
+      },
+      "smtp.shaoxin.top": {
+        "cert": "smtp.shaoxin.top.pem",
+        "key": "smtp.shaoxin.top.key"
+      }
+    }
+  }  
+}

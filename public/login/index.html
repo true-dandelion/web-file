@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录</title>
+    <link rel="stylesheet" href="/login/assets/assets.css">
+    <link rel="shortcut icon" href="/ico/8565645672.ico" type="image/x-icon" />
+</head>
+
+<body>
+    <div class="login-container">
+        <div class="login-box">
+            <div class="login-header">
+                <h2>登录</h2>
+                <div class="login-switch">
+                    <span>扫码登录</span>
+                </div>
+            </div>
+
+            <form id="loginForm">
+                <div class="input-group">
+                    <label>用户名:</label>
+                    <input type="text" name="z" placeholder="请输入邮箱/用户名">
+                </div>
+                <div class="input-group">
+                    <label>密码:</label>
+                    <input type="password" name="m" placeholder="请输入密码">
+                </div>
+                <div class="error-message"></div>
+                <button type="submit">登录</button>
+            </form>
+
+            <div class="qr-login" style="display: none;">
+                <div class="qr-code">
+                    <div class="loading-spinner"></div>
+                </div>
+                <p class="qr-tip">请使用手机扫码登录</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="../login/assets/assets.js"></script>
+    <script src="../login/assets/forge.min.js"></script>
+    <script src="../login/assets/m.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#4285f4">
+    <title>设置</title>
+    <link rel="stylesheet" href="./setup/assets/set-up.css">
+    <link rel="shortcut icon" href="../ico/8565645672.ico" type="image/x-icon" />
+</head>
+<body>
+    <div class="header">
+        <div class="back-button">
+            <span class="icon" data-icon="arrowLeft"></span>
+            <span>返回</span>
+        </div>
+        <div class="header-title">设置中心</div>
+        <div class="quit">
+            <span class="icon" data-icon="quit"></span>
+            <span>退出</span>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="user-info">
+                    <div class="username">欢迎回来</div>
+                    <div id="id-username">
+                        <span class="icon" data-icon="username"></span>
+                        <span class="username-text"></span>
+                    </div>
+                </div>
+            </div>
+            <nav class="nav-menu">
+                <!-- 导航菜单项 -->
+                <ul id="menu-list">
+                    <li class="active" data-section="general">
+                        <a href="#general">
+                            <span class="icon" data-icon="link"></span>
+                            <span>链接管理</span>
+                        </a>
+                    </li>
+                    <li data-section="account">
+                        <a href="#account">
+                            <span class="icon" data-icon="user"></span>
+                            <span>账户管理</span>
+                        </a>
+                    </li>
+                    <li data-section="theme">
+                        <a href="#theme">
+                            <span class="icon" data-icon="paintBrush"></span>
+                            <span>主题外观</span>
+                        </a>
+                    </li>
+                    <li data-section="storage">
+                        <a href="#storage">
+                            <span class="icon" data-icon="database"></span>
+                            <span>存储空间</span>
+                        </a>
+                    </li>
+                    <li data-section="privacy">
+                        <a href="#privacy">
+                            <span class="icon" data-icon="shield"></span>
+                            <span>隐私安全</span>
+                        </a>
+                    </li>
+                    <li data-section="about">
+                        <a href="#about">
+                            <span class="icon" data-icon="info"></span>
+                            <span>关于我们</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div class="content" id="content-area">
+            <div class="section active" id="general">
+                <h1>链接管理</h1>
+                <div class="share-links-container">
+                    <div class="share-links-header">
+                        <h2>我的分享链接</h2>
+                        <button class="refresh-btn" id="refreshShareLinks">
+                            <span class="icon" data-icon="refresh"></span>刷新
+                        </button>
+                    </div>
+                    
+                    <div class="loading-indicator" id="linkLoadingIndicator">
+                        <div class="spinner"></div>
+                        <p>正在加载分享链接...</p>
+                    </div>
+                    
+                    <div class="empty-state" id="emptyShareLinks" style="display: none;">
+                        <div class="empty-icon" data-icon="emptyBox"></div>
+                        <p>暂无分享链接</p>
+                    </div>
+                    
+                    <div class="share-links-list" id="shareLinksContainer" style="display: none;">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section" id="account">
+                <h1>账户管理</h1>
+                
+                <div class="account-container">
+                    <div class="account-header">
+                        <h2>个人信息</h2>
+                    </div>
+                    
+                    <div class="account-info-container">
+                        <div class="account-details">
+                            <div class="info-group">
+                                <div class="info-label">用户名：</div>
+                                <div class="info-value" id="profile-username">加载中...</div>
+                            </div>
+                            <div class="info-group" id="email-container">
+                                <div class="info-label">邮件地址：</div>
+                                <div class="info-value" id="profile-email"></div>
+                                <button class="action-btn" id="changeEmailBtn">修改邮件地址</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="account-container">
+                    <div class="account-header">
+                        <h2>安全设置</h2>
+                    </div>
+                    
+                    <div class="account-security-container">
+                        <div class="security-item">
+                            <div class="security-info">
+                                <h3>修改密码</h3>
+                                <p>定期更改密码可以提高账户安全性</p>
+                            </div>
+                            <button class="action-btn" id="changePasswordBtn">修改</button>
+                        </div>
+                        
+                        <div class="security-item">
+                            <div class="security-info">
+                                <h3>登录设备管理</h3>
+                                <p>查看并管理已登录的设备</p>
+                            </div>
+                            <button class="action-btn" id="manageDevicesBtn">管理</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section" id="theme">
+                <h1>主题外观</h1>
+                <p>自定义界面主题和外观设置</p>
+            </div>
+            
+            <div class="section" id="storage">
+                <h1>存储空间</h1>
+                <p>查看存储使用情况和管理文件</p>
+            </div>
+            
+            <div class="section" id="privacy">
+                <h1>隐私安全</h1>
+                <p>配置隐私和安全选项</p>
+            </div>
+            
+            <div class="section" id="about">
+                <h1>关于我们</h1>
+                <p>了解更多关于我们的信息</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 删除确认模态框 -->
+    <div id="deleteModal" class="modal">
+        <div class="modal-overlay">
+            <div class="modal-container">
+                <div class="modal-header">
+                    <h3>确认删除</h3>
+                    <button class="close-modal">
+                        <svg class="icon" viewBox="0 0 24 24">
+                            <path fill="currentColor" d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-icon" data-icon="warning"></div>
+                    <p class="modal-message">确定要删除该分享链接吗？</p>
+                    <p class="modal-description">此操作无法撤销，删除后将无法恢复。</p>
+                    <div class="modal-file-info">
+                        <div class="modal-file-name"></div>
+                        <div class="modal-file-path"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="cancel-btn" id="cancelDelete">取消</button>
+                    <button class="confirm-btn" id="confirmDelete">确认删除</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 密码修改模态框 -->
+    <div id="password-modal" class="modal">
+        <div class="modal-overlay">
+            <div class="modal-container">
+                <div class="modal-header">
+                    <h3>修改密码</h3>
+                    <button class="close-modal">
+                        <svg class="icon" viewBox="0 0 24 24">
+                            <path fill="currentColor" d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="password-form" class="password-form">
+                        <div class="form-group">
+                            <label for="current-password">当前密码</label>
+                            <input type="password" id="current-password" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="new-password">新密码</label>
+                            <input type="password" id="new-password" class="form-control" required>
+                            <div class="password-strength-meter">
+                                <div class="strength-bar"></div>
+                            </div>
+                            <div class="password-hint"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="confirm-password">确认新密码</label>
+                            <input type="password" id="confirm-password" class="form-control" required>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="cancel-btn">取消</button>
+                            <button type="submit" class="confirm-btn">确认修改</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 设备管理模态框 -->
+    <div id="devices-modal" class="modal">
+        <div class="modal-overlay">
+            <div class="modal-container devices-modal">
+                <div class="modal-header">
+                    <h3>管理登录设备</h3>
+                    <button class="close-modal">
+                        <svg class="icon" viewBox="0 0 24 24">
+                            <path fill="currentColor" d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="devices-list">
+                        <!-- 设备列表将通过JavaScript动态生成 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 邮件验证模态窗口 -->
+    <div id="email-verify-modal" class="modal">
+        <div class="modal-overlay">
+            <div class="modal-container">
+                <div class="modal-header">
+                    <h3>验证当前邮件地址</h3>
+                    <button class="close-modal">
+                        <svg class="icon" viewBox="0 0 24 24">
+                            <path fill="currentColor" d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="verify-message">
+                        <p>为了保障您的账户安全，我们需要先验证您的当前邮件地址。</p>
+                        <p>请点击下方按钮发送验证码至 <span id="current-email-display">您的邮箱</span></p>
+                    </div>
+                    <form id="email-verify-form" class="email-form">
+                        <div class="verify-code-container">
+                            <div class="form-group code-input-group">
+                                <div class="code-input-wrapper">
+                                    <input type="text" id="verify-code" class="form-control" required placeholder="请输入验证码" maxlength="6">
+                                    <button type="button" id="sendCodeBtn" class="send-code-btn">发送验证码</button>
+                                    <button type="button" id="resendCodeBtn" class="send-code-btn" style="display: none;">重新发送(<span id="countdown">60</span>s)</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="cancel-btn">取消</button>
+                            <button type="submit" class="confirm-btn">验证邮箱</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 邮件地址修改模态框 -->
+    <div id="email-modal" class="modal">
+        <div class="modal-overlay">
+            <div class="modal-container">
+                <div class="modal-header">
+                    <h3>设置新的邮件地址</h3>
+                    <button class="close-modal">
+                        <svg class="icon" viewBox="0 0 24 24">
+                            <path fill="currentColor" d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="email-form" class="email-form">
+                        <div class="form-group">
+                            <label for="new-email">新邮件地址</label>
+                            <input type="email" id="new-email" class="form-control" required placeholder="请输入新的邮件地址">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="cancel-btn">取消</button>
+                            <button type="submit" class="confirm-btn">确认修改</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="./setup/assets/svg.js"></script>
+    <script src="./setup/assets/set-up.js"></script>
+    <script src="./setup/assets/account.js"></script>
+</body>
+</html>

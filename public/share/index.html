@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文件分享</title>
+    <link rel="stylesheet" href="./assets/share.css">
+    <link rel="shortcut icon" href="../ico/8565645672.ico" type="image/x-icon" />
+</head>
+<body>
+    <div class="container">
+        <!-- 提取码输入页面 -->
+        <div class="code-input-container" id="codeInputPage">
+            <h1>该文件已加密，请输入提取码</h1>
+            <div class="input-group">
+                <input type="text" id="extractCode" placeholder="请输入提取码访问文件" autocomplete="off">
+            </div>
+            <button id="submitCode">确认访问</button>
+            <p class="error-message" id="errorMessage">提取码错误，请重新输入</p>
+        </div>
+        
+        <!-- 文件下载页面 -->
+        <div class="download-container" id="downloadPage">
+            <div class="breadcrumb" id="breadcrumb">
+                <a href="#" data-path="/">根目录</a>
+            </div>
+            <div class="table-container">
+                <table class="file-table" id="fileList">
+                </table>
+            </div>
+        </div>
+    </div>
+    <script src="../../vector/vector.js"></script>
+    <script src="./assets/share.js"></script>
+    
+</body>
+</html>

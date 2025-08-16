@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#4285f4">
+    <title>文件上传</title>
+    <link rel="stylesheet" href="./file/assets/syst.css">
+    <link rel="shortcut icon" href="./ico/8565645672.ico" type="image/x-icon" />
+</head>
+<body>
+    <div class="container">
+        <div id="main-screen" class="screen active">
+            <div class="top-bar">
+                <button id="upload-set-up" class="set-up-button">设置</button>
+                <button id="upload-btn" class="upload-button">上传</button>
+                <button id="logout-btn" class="logout-button">退出</button>
+            </div>
+            <div class="file-explorer">
+                <div class="explorer-header">
+                    <div class="current-path">根目录</div>
+                    <div class="explorer-actions">
+                        <button id="new-folder-btn" class="action-btn">新建文件夹</button>
+                    </div>
+                </div>
+                <div id="file-list-container" class="file-list-container">
+                    <!-- 文件列表将在这里动态生成 -->
+                </div>
+            </div>
+        </div>
+        
+        <div id="upload-screen" class="screen">
+            <div class="upload-header">
+                <div class="header-left">
+                    <span class="back-btn">←</span>
+                    <span class="header-title">上传</span>
+                </div>
+                <span class="close-btn">×</span>
+            </div>
+            
+            <div class="upload-content">
+                <div class="upload-actions">
+                    <div class="upload-buttons">
+                        <button id="upload-file-btn" class="action-button">上传文件</button>
+                        <button id="upload-folder-btn" class="action-button">上传文件夹</button>
+                    </div>
+                    <button id="clear-list-btn" class="clear-button">清空列表</button>
+                </div>
+                
+                <div class="upload-dropzone-container" style="display: none;">
+                    <div class="upload-dropzone">
+                        <div class="cloud-icon">
+                            <svg class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" width="50" height="50">
+                                <path d="M821.76 479.488c0 0-6.272-206.4-174.4-247.424S398.208 368.192 396.544 373.248C394.88 378.304 386.624 376 386.624 376c-13.44-12.736-72.704-41.984-134.976-4.48-62.208 37.504-39.68 108.736-39.68 108.736S119.744 472.768 72.448 615.168c-47.232 142.528 118.464 182.912 118.464 182.912l278.144 0 0-151.616-55.68 0L408.512 646.464 404.736 646.464l0-0.256c-3.2 0-5.76-2.56-5.76-5.824 0-1.92 1.024-3.584 2.56-4.672l113.984-119.872c1.6-1.792 3.84-3.008 6.464-3.008 2.688 0 5.056 1.344 6.656 3.328l113.152 118.912c0.192 0.128 0.384 0.32 0.576 0.512l1.088 1.152-0.384 0c0.576 1.024 0.96 1.92 0.96 3.136 0 3.584-2.88 6.528-6.528 6.528-0.128 0-0.128-0.128-0.256-0.128l0 0.256L575.936 646.528l0 151.616 252.48 0c0 0 120.384-30.144 131.008-154.432C970.176 519.424 821.76 479.488 821.76 479.488z" fill="#cccccc"></path>
+                            </svg>
+                        </div>
+                        <p class="upload-text">将需要上传的文件拖到此处</p>
+                        <input type="file" id="file-input" multiple="" hidden="">
+                    </div>
+                </div>
+                
+                <div class="upload-area">
+                </div>
+                
+                <div class="action-buttons">
+                    <button id="cancel-btn" class="bottom-button cancel">取消</button>
+                    <button id="confirm-btn" class="bottom-button confirm">确认</button>
+                </div>
+            </div>
+        </div>
+        
+        <div id="overlay" class="overlay"></div>
+    </div>
+    <script src="../vector/vector.js"></script>
+    <script src="../file/assets/ws.js"></script>
+    <script src="../file/assets/jump.js"></script>
+    <script src="../file/assets/file-acquisition.js"></script>
+    <script src="../file/assets/sysy.js"></script>
+    <script src="../file/assets/download.js"></script>
+    <script src="../file/assets/share-button.js"></script>
+    <script src="../file/assets/address.js"></script>
+</body>
+</html>
+
